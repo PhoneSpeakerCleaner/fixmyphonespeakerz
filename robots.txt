@@ -2,3 +2,15 @@ User-agent: *
 Allow: /
 
 Sitemap: https://fixmyphonespeakerz.vercel.app/sitemap.xml
+
+# Google Bot
+user-agent: Googlebot
+Allow: /
+
+# Bing Bot
+user-agent: Bingbot
+Allow: /
+
+# Yandex Bot
+user-agent: Yandex
+Allow: /
