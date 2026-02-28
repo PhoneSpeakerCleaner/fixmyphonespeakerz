@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fix My Speaker – Speaker Cleaner & Water Eject Tool</title>
+  <meta name="description" content="Free online speaker cleaner tool. Remove water, dust, and debris from your phone speaker instantly. Works on iPhone, Android & all devices. Fix muffled sound now!" />
+  <meta name="keywords" content="speaker cleaner, fix my speaker, remove water from speaker, speaker water eject, phone speaker fix, clean speaker online, muffled speaker fix" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://fix-my-speaker.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Fix My Speaker – Free Online Speaker Cleaner" />
+  <meta property="og:description" content="Remove water & dust from your phone speaker with our free online tool. Works on all devices!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fix-my-speaker.vercel.app/" />
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Fix My Speaker",
+    "description": "Free online speaker cleaner tool to remove water and dust from phone speakers",
+    "url": "https://fix-my-speaker.vercel.app/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #04080f;
+      --bg2: #080f1e;
+      --accent: #00e5ff;
+      --accent2: #7b2fff;
+      --text: #e8f0fe;
+      --muted: #7a8ba8;
+      --card: #0d1626;
+      --border: rgba(0,229,255,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 18px 5%;
+      background: rgba(4,8,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.3rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, rgba(123,47,255,0.06) 40%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      background: rgba(0,229,255,0.05);
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem; color: var(--muted);
+      max-width: 580px; margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    /* SPEAKER VISUAL */
+    .speaker-widget {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      max-width: 520px; margin: 0 auto 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .speaker-widget::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.03), rgba(123,47,255,0.03));
+      pointer-events: none;
+    }
+
+    .speaker-icon {
+      width: 100px; height: 100px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+
+    .speaker-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.5;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: var(--accent);
+      opacity: 1;
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 0.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    .wave-bars {
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+      height: 60px; margin-bottom: 24px;
+    }
+    .bar {
+      width: 5px; border-radius: 3px;
+      background: linear-gradient(to top, var(--accent2), var(--accent));
+      animation: wave 1.2s ease-in-out infinite;
+      opacity: 0.3;
+    }
+    .bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+    .bar:nth-child(2) { height: 35px; animation-delay: 0.15s; }
+    .bar:nth-child(3) { height: 50px; animation-delay: 0.3s; }
+    .bar:nth-child(4) { height: 40px; animation-delay: 0.45s; }
+    .bar:nth-child(5) { height: 55px; animation-delay: 0.6s; }
+    .bar:nth-child(6) { height: 30px; animation-delay: 0.75s; }
+    .bar:nth-child(7) { height: 45px; animation-delay: 0.9s; }
+    .bar:nth-child(8) { height: 25px; animation-delay: 1.05s; }
+
+    .bar.playing { opacity: 1; }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.4); }
+      50% { transform: scaleY(1); }
+    }
+
+    .freq-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 700;
+      color: var(--accent); margin-bottom: 6px;
+    }
+    .freq-sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 28px; }
+
+    .btn-clean {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 16px 44px;
+      border-radius: 50px;
+      border: none; cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(0,229,255,0.2);
+      width: 100%;
+    }
+    .btn-clean:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(0,229,255,0.35);
+    }
+    .btn-clean:active { transform: translateY(0); }
+
+    .status-msg {
+      margin-top: 16px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      min-height: 22px;
+    }
+    .status-msg.active { color: var(--accent); }
+
+
+    /* HOW IT WORKS */
+    section { padding: 100px 5%; }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 16px;
+    }
+    h2 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .section-sub {
+      color: var(--muted); font-size: 1rem; line-height: 1.7;
+      max-width: 600px; margin-bottom: 60px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .step-card:hover {
+      border-color: rgba(0,229,255,0.4);
+      transform: translateY(-4px);
+    }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem; font-weight: 800;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(0,229,255,0.3);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .step-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* WHY SECTION */
+    .why-section { background: var(--bg2); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .why-card {
+      padding: 28px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+    .why-icon { font-size: 2rem; margin-bottom: 14px; }
+    .why-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1rem; margin-bottom: 8px;
+    }
+    .why-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+
+    /* FAQ */
+    .faq-list { max-width: 720px; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0;
+    }
+    .faq-q {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      margin-bottom: 10px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-a { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    /* CONTENT SECTION */
+    .content-section { background: var(--bg2); }
+    .content-section p {
+      color: var(--muted); line-height: 1.8; max-width: 800px; margin-bottom: 18px;
+    }
+    .content-section h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1.2rem; margin: 32px 0 12px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 50px 5% 30px;
+      border-top: 1px solid var(--border);
+      display: flex; flex-wrap: wrap;
+      justify-content: space-between; align-items: center;
+      gap: 20px;
+    }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .footer-text { color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
+    .footer-text a { color: var(--accent); text-decoration: none; }
+    .footer-text a:hover { text-decoration: underline; }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .speaker-widget { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">🔊 Fix My Speaker</div>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge">✦ Free Online Tool — No App Needed</div>
+    <h1>Fix Your Speaker<br><span>In Seconds</span></h1>
+    <p class="hero-sub">Remove water, dust, and debris from your phone speaker using precise sound frequencies. Works on iPhone, Android, and any device — instantly.</p>
+
+    <!-- WIDGET -->
+    <div class="speaker-widget">
+      <div class="wave-bars" id="waveBars">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <div class="freq-label" id="freqLabel">165 Hz</div>
+      <div class="freq-sub" id="freqSub">Ready to clean your speaker</div>
+      <button class="btn-clean" id="cleanBtn" onclick="startCleaning()">
+        🔊 Start Speaker Cleaner
+      </button>
+      <div class="status-msg" id="statusMsg">Turn up your volume for best results</div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <h2>How the <span>Speaker Cleaner</span> Works</h2>
+  <p class="section-sub">Our online speaker cleaner uses scientifically calibrated low-frequency sound waves to vibrate water and fine particles out of your speaker grille — safely and effectively.</p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h3>Visit the Page</h3>
+      <p>No app download or sign-up required. Open Fix My Speaker on any browser — Chrome, Safari, or Firefox — on any device.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h3>Turn Up Volume</h3>
+      <p>Set your device volume to maximum. This ensures the sound frequency is powerful enough to dislodge water droplets and dust particles.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <h3>Press Clean</h3>
+      <p>Tap the Start Speaker Cleaner button. Our tool plays a precisely tuned 165 Hz tone that vibrates your speaker membrane to push out trapped water.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <h3>Wipe & Done</h3>
+      <p>After the cleaning cycle, gently wipe the speaker grille with a dry cloth. Your audio should be noticeably clearer within minutes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why" class="why-section">
+  <h2>Why <span>Fix My Speaker?</span></h2>
+  <p class="section-sub">Thousands of users trust our free online speaker cleaner every day. Here's what makes us different.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">⚡</div>
+      <h3>Instant Results</h3>
+      <p>Works in under 60 seconds. The 165 Hz frequency is optimized for maximum water ejection and dust removal from all speaker types.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📱</div>
+      <h3>Works on All Devices</h3>
+      <p>Compatible with iPhone, Samsung, Android, iPad, MacBook, laptops, and Bluetooth speakers. Any device with a speaker.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🔒</div>
+      <h3>100% Safe</h3>
+      <p>Pure sound waves only. No tools, no liquids, no risky methods. This is the same technique used by Apple Watch's Water Lock feature.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💸</div>
+      <h3>Completely Free</h3>
+      <p>No subscriptions, no premium tiers. Our speaker cleaner is and always will be free. Clean your speaker anytime, anywhere.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌐</div>
+      <h3>No App Needed</h3>
+      <p>Works directly in your browser. No installation, no storage space wasted. Just visit, click, and fix.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🎯</div>
+      <h3>Scientifically Tuned</h3>
+      <p>The 165 Hz tone is specifically chosen for its ability to create resonance in standard smartphone speakers without causing damage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT / SEO ARTICLE -->
+<section class="content-section">
+  <h2>Everything About <span>Speaker Cleaning</span></h2>
+  <p class="section-sub">A complete guide to understanding why speakers get damaged and how to fix them.</p>
+
+  <h3>Why Does Water Get Trapped in Speakers?</h3>
+  <p>Modern smartphones are water-resistant but not fully waterproof. When exposed to rain, splashes, or accidental submersion, water enters through the tiny holes in the speaker grille. Once inside, it sits on the speaker membrane and causes muffled, crackling, or distorted audio — even after the exterior appears dry.</p>
+
+  <h3>Can Sound Waves Really Eject Water?</h3>
+  <p>Yes — and this is proven technology. Apple's Apple Watch has a built-in "Water Lock" feature that plays a specific sound frequency to push water out of the speaker cavity. Our free online speaker cleaner uses the same principle: low-frequency tones create vibrations in the speaker cone that physically push trapped water droplets outward through the grille. It's physics, not magic. For a more advanced experience, you can also try the most trusted free <a href="https://my-speakercleaner.com/" target="_blank" rel="dofollow" style="color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(0,229,255,0.4);">speaker cleaner</a> tool available online.</p>
+
+  <h3>What Causes a Muffled Speaker?</h3>
+  <p>A muffled or quiet speaker is usually caused by one of three things: water trapped in the grille, dust and lint clogging the speaker mesh, or a damaged speaker membrane. Our tool addresses the first two causes effectively. For physical membrane damage, a hardware repair may be needed.</p>
+
+  <h3>How Often Should You Clean Your Speaker?</h3>
+  <p>If you use your phone daily in various environments, a quick speaker cleaning every 2–4 weeks is a good habit. If you've dropped your phone in water, run the cleaner immediately for 2–3 cycles with volume at maximum. Users in dusty environments, such as construction sites or kitchens, may benefit from weekly cleaning.</p>
+
+  <h3>Does This Work for Bluetooth Speakers Too?</h3>
+  <p>Absolutely. Our speaker cleaner works on any device with a speaker — Bluetooth speakers, earbuds (play through a phone to indirect-clean), laptop speakers, car speaker systems connected via Bluetooth, and more. Just play the tone through the affected speaker at maximum volume.</p>
+
+  <h3>Tips for Best Results</h3>
+  <p>Always run the cleaning cycle with volume at 100%. Hold your phone horizontally with the speaker facing down during the cycle so gravity assists the water ejection. After the tone stops, tap the phone gently against your palm 2–3 times. Then use a dry microfiber cloth to wipe the speaker grille. Avoid blowing into the speaker as this can push moisture deeper inward.</p>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <h2>Frequently Asked <span>Questions</span></h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">Is this speaker cleaner really free? <span>+</span></div>
+      <div class="faq-a">Yes, completely free. No account, no app, no payment. Open the site and click the button.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Will this damage my speaker? <span>+</span></div>
+      <div class="faq-a">No. The 165 Hz tone is well within the safe operating range of all consumer device speakers. It will not damage your hardware.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How long does one cleaning cycle take? <span>+</span></div>
+      <div class="faq-a">Each cycle runs for approximately 30 seconds. For best results, we recommend running 2–3 cycles back to back.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Does it work on iPhone 15 and the latest Android phones? <span>+</span></div>
+      <div class="faq-a">Yes. It works on all iPhone models (iPhone 6 through iPhone 16), all Samsung Galaxy phones, Google Pixel, OnePlus, and every other Android device.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">My speaker is still muffled after cleaning. What do I do? <span>+</span></div>
+      <div class="faq-a">Try 3–4 more cycles with the phone face-down. If audio quality doesn't improve, the speaker membrane may be physically damaged and you should consult a phone repair shop.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I use this for AirPods or earbuds? <span>+</span></div>
+      <div class="faq-a">For earbuds, play the tone through a phone speaker held close to the earbud mesh. Direct exposure to the cleaning frequency via another speaker can help dislodge debris.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">🔊 Fix My Speaker</div>
+    <div class="footer-text" style="margin-top:8px;">Free online speaker cleaner — works on all devices</div>
+  </div>
+  <div class="footer-text" style="text-align:right;">
+    © 2025 Fix My Speaker. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  let audioCtx = null;
+  let isPlaying = false;
+  let osc = null;
+  let gainNode = null;
+  let interval = null;
+  let cycleTimeout = null;
+
+  const freqs = [165, 200, 250, 175, 220, 165];
+  let freqIndex = 0;
+
+  function startCleaning() {
+    const btn = document.getElementById('cleanBtn');
+    const statusMsg = document.getElementById('statusMsg');
+    const freqLabel = document.getElementById('freqLabel');
+    const freqSub = document.getElementById('freqSub');
+    const bars = document.querySelectorAll('.bar');
+
+    if (isPlaying) {
+      stopCleaning();
+      return;
+    }
+
+    isPlaying = true;
+    btn.textContent = '⏹ Stop Cleaning';
+    btn.style.background = 'linear-gradient(135deg, #ff4757, #c0392b)';
+    statusMsg.textContent = '🌊 Ejecting water — keep volume at MAX';
+    statusMsg.className = 'status-msg active';
+    bars.forEach(b => b.classList.add('playing'));
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    osc = audioCtx.createOscillator();
+    gainNode = audioCtx.createGain();
+
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(165, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(1.0, audioCtx.currentTime);
+    osc.start();
+
+    freqIndex = 0;
+    interval = setInterval(() => {
+      freqIndex = (freqIndex + 1) % freqs.length;
+      const f = freqs[freqIndex];
+      osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+      freqLabel.textContent = f + ' Hz';
+    }, 4000);
+
+    cycleTimeout = setTimeout(() => {
+      stopCleaning();
+      freqLabel.textContent = '✓ Done!';
+      freqSub.textContent = 'Cleaning cycle complete';
+      statusMsg.textContent = '✅ Wipe speaker with a dry cloth now';
+      statusMsg.className = 'status-msg active';
+    }, 30000);
+  }
+
+  function stopCleaning() {
+    isPlaying = false;
+    const btn = document.getElementById('cleanBtn');
+    btn.textContent = '🔊 Start Speaker Cleaner';
+    btn.style.background = '';
+    document.querySelectorAll('.bar').forEach(b => b.classList.remove('playing'));
+    document.getElementById('freqLabel').textContent = '165 Hz';
+    document.getElementById('freqSub').textContent = 'Ready to clean your speaker';
+    document.getElementById('statusMsg').textContent = 'Turn up your volume for best results';
+    document.getElementById('statusMsg').className = 'status-msg';
+
+    clearInterval(interval);
+    clearTimeout(cycleTimeout);
+    if (osc) { try { osc.stop(); } catch(e){} }
+    if (audioCtx) { audioCtx.close(); }
+  }
+</script>
+
+</body>
+</html>
